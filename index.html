@@ -13,9 +13,9 @@
 
     body {
       background-color: #ffffff;
-      font-family: 'Georgia', 'Times New Roman', serif;
+      font-family: 'Bell MT', 'Bell', Georgia, serif;
       color: #1a1a1a;
-      min-height: 100vh
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
@@ -104,6 +104,50 @@
       text-underline-offset: 3px;
     }
 
+    /* Collapsible nav items */
+    .nav-item summary {
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      cursor: pointer;
+      line-height: 1.9;
+      list-style: none;
+    }
+
+    .nav-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .nav-item summary::before {
+      content: '+ ';
+      font-weight: normal;
+    }
+
+    .nav-item[open] summary::before {
+      content: '– ';
+    }
+
+    .nav-item summary:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .nav-content {
+      padding: 6px 0 10px 18px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    .nav-content a {
+      color: #9b6b6b;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .nav-content a:hover {
+      color: #7a4a4a;
+    }
+
     /* Footer quote */
     .footer-quote {
       margin-top: auto;
@@ -144,25 +188,45 @@
       Hi! I'm Carolanne, currently studying philosophy at the University of
       Chicago. I am interested in AI Safety, philosophy, citizen science, effective
       altruism, and in another world I might have been a
-      <a href="#">painter</a>.
+      <a href="index.html">painter</a>.
     </p>
 
     <nav>
-      <p class="nav-label">Navigation:</p>
-      <ul>
-        <li><a href="#">My writing</a></li>
-        <li><a href="#">Reading</a></li>
-        <li><a href="#">Contacts</a></li>
-        <li><a href="#">Feedback</a></li>
-        <li><a href="https://portfolio.carolannejiang.com">Portfolio</a></li>
-      </ul>
+      <p class="nav-label"><strong>Navigation:</strong></p>
+
+      <details class="nav-item">
+        <summary>My writing</summary>
+        <div class="nav-content">
+          Here is my <a href="https://substack.com/@carolannejiang">substack</a>
+        </div>
+      </details>
+
+      <details class="nav-item">
+        <summary>Reading</summary>
+        <div class="nav-content">
+          Coming soon.
+        </div>
+      </details>
+
+      <details class="nav-item">
+        <summary>Contacts</summary>
+        <div class="nav-content">
+          carolannejiang@gmail.com
+        </div>
+      </details>
+
+      <details class="nav-item">
+        <summary>Feedback</summary>
+        <div class="nav-content">
+          Coming soon.
+        </div>
+      </details>
     </nav>
 
     <div class="footer-quote">
       The world is the best of all possible worlds, and everything in it is a necessary evil.
       <span class="cursor"></span>
     </div>
-  
 
   </div>
 
