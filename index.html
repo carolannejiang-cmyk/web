@@ -123,12 +123,17 @@
     }
 
     .nav-item summary::before {
-      content: '+ ';
-      font-weight: normal;
+      content: '';
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      vertical-align: -4px;
+      background: url('images/ui/expand-plus.png') no-repeat center / contain;
     }
 
     .nav-item[open] summary::before {
-      content: '– ';
+      background-image: url('images/ui/expand-minus.png');
     }
 
     .nav-item summary:hover {
