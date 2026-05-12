@@ -43,12 +43,33 @@
       gap: 14px;
       width: 100%;
     }
+    .stage-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+    }
+    .nav-arrow {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.8rem;
+      color: #999;
+      padding: 4px 10px;
+      line-height: 1;
+      font-family: inherit;
+      transition: color 0.2s;
+      user-select: none;
+    }
+    .nav-arrow:hover { color: #111; }
     .stage {
       position: relative;
       width: 100%;
       max-width: 500px;
       aspect-ratio: 3 / 2;
       cursor: pointer;
+      flex-shrink: 0;
     }
     .stage img {
       position: absolute;
@@ -97,7 +118,7 @@
   <div class="container">
 
     <div class="slideshow">
-      <div class="stage">
+      <div class="stage-wrap"><button class="nav-arrow prev" aria-label="previous">‹</button><div class="stage">
         <img src="images/pleinair/_R002058.jpg" alt="" class="active" data-caption="Karl-Marx-Straße, Berlin, 2025">
         <img src="images/pleinair/IMG_0871.jpg" alt="" loading="lazy" data-caption="Treptower Park, Berlin, 2025">
         <img src="images/pleinair/IMG_1884.jpg" alt="" loading="lazy" data-caption="Karl-Marx-Straße, Berlin, 2025">
@@ -105,13 +126,13 @@
         <img src="images/pleinair/IMG_2529.jpg" alt="" loading="lazy" data-caption="Natural History Museum, Vienna, 2025">
         <img src="images/pleinair/IMG_2535.jpg" alt="" loading="lazy" data-caption="Natural History Museum, Vienna, 2025">
         <img src="images/pleinair/IMG_2582.jpg" alt="" loading="lazy" data-caption="Bratislava, 2025">
-      </div>
+      </div><button class="nav-arrow next" aria-label="next">›</button></div>
       <div class="caption">Karl-Marx-Straße, Berlin, 2025</div>
       <div class="counter">1 / 7</div>
     </div>
 
     <div class="slideshow">
-      <div class="stage">
+      <div class="stage-wrap"><button class="nav-arrow prev" aria-label="previous">‹</button><div class="stage">
         <img src="images/memories/m1.jpg" alt="" class="active" loading="lazy" data-caption="Florence, 2023">
         <img src="images/memories/m2.jpg" alt="" loading="lazy" data-caption="Florence, 2023">
         <img src="images/memories/m3.jpg" alt="" loading="lazy" data-caption="Florence, 2023">
@@ -121,13 +142,13 @@
         <img src="images/memories/m7.jpg" alt="" loading="lazy" data-caption="Florence, 2023">
         <img src="images/memories/m8.jpg" alt="" loading="lazy" data-caption="Florence, 2023">
         <img src="images/memories/m9.jpg" alt="" loading="lazy" data-caption="Florence, 2023">
-      </div>
+      </div><button class="nav-arrow next" aria-label="next">›</button></div>
       <div class="caption">Florence, 2023</div>
       <div class="counter">1 / 9</div>
     </div>
 
     <div class="slideshow">
-      <div class="stage">
+      <div class="stage-wrap"><button class="nav-arrow prev" aria-label="previous">‹</button><div class="stage">
         <img src="images/students/s01.jpg" alt="" class="active" loading="lazy" data-caption="Paintings from various students">
         <img src="images/students/s02.jpg" alt="" loading="lazy" data-caption="Paintings from various students">
         <img src="images/students/s03.jpg" alt="" loading="lazy" data-caption="Paintings from various students">
@@ -149,7 +170,7 @@
         <img src="images/students/s19.jpg" alt="" loading="lazy" data-caption="Paintings from various students">
         <img src="images/students/s20.jpg" alt="" loading="lazy" data-caption="Paintings from various students">
         <img src="images/students/s21.jpg" alt="" loading="lazy" data-caption="Paintings from various students">
-      </div>
+      </div><button class="nav-arrow next" aria-label="next">›</button></div>
       <div class="caption">Paintings from various students</div>
       <div class="counter">1 / 21</div>
       <div class="description">Between 2023 to 2025, I taught observational acrylic painting lessons at my local senior center. Here are some pieces from my students that I am particularly fond of. Nearly all of them had no prior experience.</div>
@@ -161,6 +182,8 @@
       const stage = show.querySelector('.stage');
       const counter = show.querySelector('.counter');
       const caption = show.querySelector('.caption');
+      const prev = show.querySelector('.nav-arrow.prev');
+      const next = show.querySelector('.nav-arrow.next');
       const slides = stage.querySelectorAll('img');
       if (!slides.length) return;
       let i = 0;
@@ -172,6 +195,8 @@
         caption.textContent = slides[i].dataset.caption || '';
       };
       stage.addEventListener('click', () => update(i + 1));
+      prev.addEventListener('click', () => update(i - 1));
+      next.addEventListener('click', () => update(i + 1));
     });
   </script>
 </body>
