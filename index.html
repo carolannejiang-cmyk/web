@@ -263,6 +263,11 @@
         document.getElementById('hero-img').src = 'images/hero/' + key + '.jpg';
         document.getElementById('hero-caption').textContent = captions[key];
 
+        const widthOverrides = { 'lee-04-05': 450 };
+        if (widthOverrides[key]) {
+          document.querySelector('.hero').style.maxWidth = widthOverrides[key] + 'px';
+        }
+
         const clockEl = document.getElementById('hero-clock');
         function tick() {
           const d = new Date();
