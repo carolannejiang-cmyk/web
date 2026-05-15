@@ -92,6 +92,26 @@
     .hero:hover .hero-caption:not(:empty) {
       opacity: 1;
     }
+    .time-picker {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      color: #888;
+      letter-spacing: 0.01em;
+    }
+    .time-picker input {
+      font: inherit;
+      color: #555;
+      background: transparent;
+      border: none;
+      border-bottom: 1px dotted #bbb;
+      padding: 1px 2px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      cursor: pointer;
+    }
+    .time-picker input:focus {
+      outline: none;
+      border-bottom-color: #7DC8F7;
+    }
     .hero-clock {
       position: absolute;
       top: 8px;
@@ -235,6 +255,9 @@
       <img id="hero-img" src="images/hero/default.jpg" alt="">
       <div class="hero-caption" id="hero-caption"></div>
     </div>
+    <div class="time-picker">
+      preview a time: <input type="time" id="time-input">
+    </div>
     <script>
       (function () {
         const captions = {
@@ -248,25 +271,31 @@
           'martin-08-11': "Agnes Martin\nUntitled, 1998\nLithograph on Gilclear Light paper\n4 7/10 × 4 7/10 in | 12 × 12 cm\nEdition of 75",
           'bennett-21-23': "Amy Bennett\nNight Gardening, 2022\nOil on panel\n16 x 20 in"
         };
-        const forced = new URLSearchParams(location.search).get('slot');
-        const h = new Date().getHours();
-        let key = 'default';
-        if (h >= 23 || h < 3) key = 'hockney-23-03';
-        else if (h >= 3 && h < 4) key = 'webster-03-04';
-        else if (h >= 4 && h < 5) key = 'lee-04-05';
-        else if (h >= 13 && h < 15) key = 'hockney-13-15';
-        else if (h >= 15 && h < 16) key = 'hockney-15-16';
-        else if (h >= 8 && h < 11) key = 'martin-08-11';
-        else if (h >= 21 && h < 23) key = 'bennett-21-23';
-        else if (h >= 20 && h < 23) key = 'lihei-20-23';
-        if (forced && captions.hasOwnProperty(forced)) key = forced;
-        document.getElementById('hero-img').src = 'images/hero/' + key + '.jpg';
-        document.getElementById('hero-caption').textContent = captions[key];
-
         const widthOverrides = { 'lee-04-05': 450 };
-        if (widthOverrides[key]) {
-          document.querySelector('.hero').style.maxWidth = widthOverrides[key] + 'px';
+
+        function pickKey(h) {
+          if (h >= 23 || h < 3) return 'hockney-23-03';
+          if (h >= 3 && h < 4) return 'webster-03-04';
+          if (h >= 4 && h < 5) return 'lee-04-05';
+          if (h >= 8 && h < 11) return 'martin-08-11';
+          if (h >= 13 && h < 15) return 'hockney-13-15';
+          if (h >= 15 && h < 16) return 'hockney-15-16';
+          if (h >= 21 && h < 23) return 'bennett-21-23';
+          if (h >= 20 && h < 23) return 'lihei-20-23';
+          return 'default';
         }
+
+        function applySlot(key) {
+          document.getElementById('hero-img').src = 'images/hero/' + key + '.jpg';
+          document.getElementById('hero-caption').textContent = captions[key] || '';
+          document.querySelector('.hero').style.maxWidth = (widthOverrides[key] || 460) + 'px';
+        }
+
+        const forced = new URLSearchParams(location.search).get('slot');
+        const initialH = new Date().getHours();
+        let key = pickKey(initialH);
+        if (forced && captions.hasOwnProperty(forced)) key = forced;
+        applySlot(key);
 
         const clockEl = document.getElementById('hero-clock');
         function tick() {
@@ -280,6 +309,16 @@
         }
         tick();
         setInterval(tick, 1000);
+
+        const timeInput = document.getElementById('time-input');
+        const now = new Date();
+        timeInput.value = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+        timeInput.addEventListener('input', function () {
+          const parts = this.value.split(':');
+          if (parts.length >= 1 && parts[0] !== '') {
+            applySlot(pickKey(parseInt(parts[0], 10)));
+          }
+        });
       })();
     </script>
 
