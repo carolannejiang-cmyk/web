@@ -97,6 +97,9 @@
       font-size: 0.72rem;
       color: #888;
       letter-spacing: 0.01em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
     .time-picker input {
       font: inherit;
@@ -111,6 +114,24 @@
     .time-picker input:focus {
       outline: none;
       border-bottom-color: #7DC8F7;
+    }
+    .time-step {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+      padding: 1px 4px;
+      line-height: 1;
+      opacity: 0;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .time-picker:hover .time-step {
+      opacity: 1;
+    }
+    .time-step:hover {
+      color: #7DC8F7;
     }
     .hero-clock {
       position: absolute;
@@ -256,7 +277,7 @@
       <div class="hero-caption" id="hero-caption"></div>
     </div>
     <div class="time-picker">
-      preview a time: <input type="time" id="time-input">
+      preview a time: <button class="time-step" id="time-back" aria-label="rewind one hour">&laquo;</button><input type="time" id="time-input"><button class="time-step" id="time-forward" aria-label="advance one hour">&raquo;</button>
     </div>
     <script>
       (function () {
@@ -313,12 +334,23 @@
         const timeInput = document.getElementById('time-input');
         const now = new Date();
         timeInput.value = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-        timeInput.addEventListener('input', function () {
-          const parts = this.value.split(':');
+        function updateFromInput() {
+          const parts = timeInput.value.split(':');
           if (parts.length >= 1 && parts[0] !== '') {
             applySlot(pickKey(parseInt(parts[0], 10)));
           }
-        });
+        }
+        timeInput.addEventListener('input', updateFromInput);
+        function step(delta) {
+          const parts = timeInput.value.split(':');
+          let hh = parseInt(parts[0] || '0', 10);
+          const mm = parts[1] || '00';
+          hh = ((hh + delta) % 24 + 24) % 24;
+          timeInput.value = String(hh).padStart(2, '0') + ':' + mm;
+          updateFromInput();
+        }
+        document.getElementById('time-back').addEventListener('click', function () { step(-1); });
+        document.getElementById('time-forward').addEventListener('click', function () { step(1); });
       })();
     </script>
 
