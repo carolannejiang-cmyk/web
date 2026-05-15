@@ -70,27 +70,24 @@
       display: block;
     }
     .hero-caption {
+      margin-top: 10px;
+      font-size: 0.72rem;
+      line-height: 1.5;
+      letter-spacing: 0.01em;
+      color: #555;
+      white-space: pre-line;
+    }
+    .hero-clock {
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 50%;
-      padding: 14px 16px;
-      background: rgba(0, 0, 0, 0.55);
+      top: 8px;
+      left: 10px;
       color: #fff;
       font-size: 0.72rem;
-      line-height: 1.45;
-      letter-spacing: 0.01em;
-      white-space: pre-line;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      opacity: 0;
+      letter-spacing: 0.02em;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+      font-variant-numeric: tabular-nums;
       pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-    .hero:hover .hero-caption:not(:empty) {
-      opacity: 1;
+      z-index: 2;
     }
     .intro {
       margin-top: 24px;
@@ -214,6 +211,7 @@
   <div class="page">
 
     <div class="hero">
+      <div class="hero-clock" id="hero-clock"></div>
       <img id="hero-img" src="images/hero/default.jpg" alt="">
       <div class="hero-caption" id="hero-caption"></div>
     </div>
@@ -236,6 +234,19 @@
         if (forced && captions.hasOwnProperty(forced)) key = forced;
         document.getElementById('hero-img').src = 'images/hero/' + key + '.jpg';
         document.getElementById('hero-caption').textContent = captions[key];
+
+        const clockEl = document.getElementById('hero-clock');
+        function tick() {
+          const d = new Date();
+          let hh = d.getHours();
+          const ampm = hh >= 12 ? 'PM' : 'AM';
+          hh = hh % 12 || 12;
+          const mm = String(d.getMinutes()).padStart(2, '0');
+          const ss = String(d.getSeconds()).padStart(2, '0');
+          clockEl.textContent = hh + ':' + mm + ':' + ss + ' ' + ampm;
+        }
+        tick();
+        setInterval(tick, 1000);
       })();
     </script>
 
