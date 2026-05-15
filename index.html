@@ -70,12 +70,27 @@
       display: block;
     }
     .hero-caption {
-      margin-top: 10px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
       font-size: 0.72rem;
-      line-height: 1.5;
+      line-height: 1.45;
       letter-spacing: 0.01em;
-      color: #555;
       white-space: pre-line;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .hero:hover .hero-caption:not(:empty) {
+      opacity: 1;
     }
     .hero-clock {
       position: absolute;
@@ -88,6 +103,11 @@
       font-variant-numeric: tabular-nums;
       pointer-events: none;
       z-index: 2;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .hero:hover .hero-clock {
+      opacity: 1;
     }
     .intro {
       margin-top: 24px;
