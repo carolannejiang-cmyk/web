@@ -190,8 +190,16 @@
   <div class="page">
 
     <div class="hero">
-      <img src="images/hero.jpg" alt="">
+      <img id="hero-img" src="images/hero/default.jpg" alt="">
     </div>
+    <script>
+      (function () {
+        const h = new Date().getHours();
+        const img = document.getElementById('hero-img');
+        if (h >= 23 || h < 3) img.src = 'images/hero/webster-23-03.jpg';
+        else if (h >= 3 && h < 6) img.src = 'images/hero/webster-03-06.jpg';
+      })();
+    </script>
 
     <p class="intro">
       Hi! I'm Carolanne, an undergraduate student studying philosophy at the
